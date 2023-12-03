@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Count</title>
+    <style>
+        body {
+            background-color: #BB86FC; /* Light violet color */
+            color: #292b2c; /* Dark color for text */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        #qr-code-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 70vh;
+            margin-top: 10vh;
+        }
+
+        .qr-code {
+            background-color: #ffffff; /* White color for QR code container */
+            border: 5px solid #BB86FC; /* Light violet border */
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 70%; /* Set the width to 70% of the container width */
+            max-width: 400px; /* Set a maximum width to avoid overflow */
+        }
+
+        .qr-code img {
+            width: 100%; /* Make the QR code fill 100% of the container */
+            max-width: 300px; /* Set a maximum width for the QR code image */
+            height: auto; /* Maintain the aspect ratio */
+            margin-bottom: 10px; /* Add a margin below the QR code */
+        }
+
+        #attendanceCount {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body onload="fetchQr('wifi'); fetchQr('attendance'); fetchAttendanceCount();">    
+    <div id="qr-code-container">
+        <div id="wifi-qrcode" class="qr-code"></div>
+        <div id="attendance-qrcode" class="qr-code"></div>
+    </div>
+
+    <div id="attendanceCount">
+        <!-- The attendance count will be displayed here -->
+    </div>
+
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script>
+         // Function to fetch and update attendance count
+        function fetchAttendanceCount(callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "AttendanceCounter", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if ("presentCount" in response) {
+                        var attendanceCount = response.presentCount;
+                        document.getElementById("attendanceCount").innerText = "Today's Attendance Count: " + attendanceCount;
+
+                        // Invoke the callback with the updated attendance count
+                        if (typeof callback === 'function') {
+                            callback(attendanceCount);
+                        }
+                    } else {
+                        document.getElementById("attendanceCount").innerText = "No attendance data found for today.";
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // Function to fetch QR code
+        function fetchQr(type) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "GenerateQRCodeServlet?type=" + type, true);
+            xhr.responseType = 'arraybuffer';
+
+            xhr.onload = function () {
+                var byteArray = new Uint8Array(xhr.response);
+                var binaryData = String.fromCharCode.apply(null, byteArray);
+                var base64Data = btoa(binaryData);
+
+                var imgElement = document.createElement("img");
+                imgElement.src = "data:image/png;base64," + base64Data;
+                imgElement.alt = type.toUpperCase() + " QR code";
+
+                var containerDiv = document.getElementById(type + "-qrcode");
+                containerDiv.innerHTML = ''; // Clear the container before appending the image
+                containerDiv.appendChild(imgElement);
+
+                // Dispatch a custom event to signal that a QR code has been scanned
+                var event = new Event('qrCodeScanned');
+                document.dispatchEvent(event);
+            };
+
+            xhr.send();
+        }
+
+        // Listen for the custom event
+        document.addEventListener('qrCodeScanned', function () {
+            // Update the attendance count after fetching the QR code
+            fetchAttendanceCount(function (attendanceCount) {
+                // Additional logic to handle the updated attendance count if needed
+                console.log("Updated attendance count:", attendanceCount);
+            });
+        });
+    </script>
+</body>
+</html>

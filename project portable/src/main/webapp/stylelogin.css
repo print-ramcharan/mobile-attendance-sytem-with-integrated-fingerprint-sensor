@@ -1,0 +1,162 @@
+@charset "UTF-8";
+
+/* Reset margin and padding for all elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styles for the container */
+.cont {
+    background-color: #BB86FC;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+}
+
+/* Rest of your CSS code for the menu icon and navigation pane */
+.menu-icon {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.bar {
+    width: 30px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+.navigation-pane {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    padding-top: 60px;
+    transition: 0.4s;
+}
+
+.navigation-pane ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navigation-pane li {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.navigation-pane a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+}
+
+.content {
+    background-color: #f0f0f0;
+    min-height: 400px;
+    border: 5px solid #BB86FC;
+    border-radius: 25%;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto;
+}
+
+.login-text h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style for the form elements */
+.boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.email-box,
+.password-box {
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+}
+
+/* Style for the buttons */
+.buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Style for the submit and reset buttons */
+input[type="submit"],
+input[type="reset"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 45%; /* Make buttons take up 45% of the login box width */
+    margin: 0 5px; /* Add margin between buttons */
+}
+
+/* Hover effect for buttons */
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the form elements */
+.boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Style for the text input fields */
+input[type="email"],
+input[type="password"] {
+    padding: 10px;
+    border: none; /* Remove the border from text inputs */
+    font-size: 16px;
+    width: 100%;
+}
+
+/* Style for the buttons */
+.buttons {
+    display: flex; /* Display buttons side by side */
+    justify-content: center; /* Center buttons horizontally */
+    margin-top: 20px;
+}
+
+/* Style for the submit and reset buttons */
+input[type="submit"],
+input[type="reset"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px; /* Add margin between buttons */
+}
+
+/* Hover effect for buttons */
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+    background-color: #0056b3;
+}
